@@ -56,6 +56,7 @@ mod PositionError {
     fn PRICE_IMPACT_LARGER_THAN_ORDER_SIZE(price_impact_usd: i256, size_delta_usd: u256) {
         let mut data = array![
             'Price impact larger order size',
+            price_impact_usd.try_into().expect('u256 into felt failed'),
             size_delta_usd.try_into().expect('u256 into felt failed')
         ];
         panic(data);

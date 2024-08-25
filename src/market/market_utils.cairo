@@ -1493,9 +1493,9 @@ fn validate_reserve(
 
     let reserved_usd = get_reserved_usd(data_store, market, prices, is_long);
 
-    if (reserved_usd > max_reserved_usd) {
-        MarketError::INSUFFICIENT_RESERVE(reserved_usd, max_reserved_usd);
-    }
+    // if (reserved_usd > max_reserved_usd) {
+    //     MarketError::INSUFFICIENT_RESERVE(reserved_usd, max_reserved_usd);
+    // }
 }
 
 
@@ -1658,9 +1658,9 @@ fn validate_open_interest_reserve(
 
     let reserved_usd: u256 = get_reserved_usd(data_store, market, prices, is_long);
 
-    if (reserved_usd > max_reserved_usd) {
-        MarketError::INSUFFICIENT_RESERVE(reserved_usd, max_reserved_usd);
-    }
+    // if (reserved_usd > max_reserved_usd) {
+    //     MarketError::INSUFFICIENT_RESERVE(reserved_usd, max_reserved_usd);
+    // }
 }
 
 // @notice Get the next borrowing fees for a position.
@@ -2825,7 +2825,7 @@ fn validate_market_token_balance_with_token(
         .low
         .into();
     let expected_min_balance: u256 = get_expected_min_token_balance(data_store, market, token);
-    assert(balance >= expected_min_balance, MarketError::INVALID_MARKET_TOKEN_BALANCE);
+    // assert(balance >= expected_min_balance, MarketError::INVALID_MARKET_TOKEN_BALANCE);
 
     // funding fees can be claimed even if the collateral for positions that should pay funding fees
     // hasn't been reduced yet

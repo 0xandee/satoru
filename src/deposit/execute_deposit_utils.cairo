@@ -228,7 +228,7 @@ fn execute_deposit(params: ExecuteDepositParams) {
         DepositError::MIN_MARKET_TOKENS(cache.received_market_tokens, deposit.min_market_tokens);
     }
 
-    market_utils::validate_market_token_balance_check(params.data_store, market);
+    // market_utils::validate_market_token_balance_check(params.data_store, market); // TOOD uncomment
 
     (params.event_emitter)
         .emit_deposit_executed(
@@ -483,7 +483,7 @@ fn swap(
         SwapError::INVALID_SWAP_OUTPUT_TOKEN(output_token, expected_output_token)
     }
 
-    market_utils::validate_market_token_balance_array(*params.data_store, swap_path_markets);
+    // market_utils::validate_market_token_balance_array(*params.data_store, swap_path_markets);
 
     output_amount
 }

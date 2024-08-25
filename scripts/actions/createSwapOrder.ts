@@ -17,7 +17,6 @@ async function create_market() {
     const usdc: string = "0x70d22d4962de09d9ec0a590e9ff33a496425277235890575457f9582d837964"
 
     const account0 = new Account(provider, account0Address!, privateKey0!)
-    console.log("Interacting with Account: " + account0Address)
 
     const compiledOrderHandlerSierra = json.parse(fs.readFileSync( "./target/dev/satoru_OrderHandler.contract_class.json").toString( "ascii"))
 

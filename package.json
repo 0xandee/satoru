@@ -1,9 +1,25 @@
 {
-  "dependencies": {
-    "@types/node": "^20.11.16",
-    "dotenv": "^16.4.1",
-    "starknet": "^6.6.6",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
-  }
+	"scripts": {
+		"1": "ts-node ./scripts/actions/1.deployApp.ts",
+		"2": "ts-node ./scripts/actions/2.grantRoles.ts",
+		"3": "ts-node ./scripts/actions/3.createMarket.ts",
+		"4": "ts-node ./scripts/actions/4.setDataStore.ts",
+		"5": "ts-node ./scripts/actions/5.createDeposit.ts",
+		"6": "ts-node ./scripts/actions/6.executeDeposit.ts",
+		"7": "ts-node ./scripts/actions/7.createLongOrder.ts",
+		"8": "ts-node ./scripts/actions/8.executeLongOrder.ts",
+		"noDeployFlow": "ts-node ./scripts/actions/2.grantRoles.ts && sleep 30 && ts-node ./scripts/actions/3.createMarket.ts && ts-node ./scripts/actions/4.setDataStore.ts && ts-node ./scripts/actions/5.createDeposit.ts && sleep 120 && ts-node ./scripts/actions/6.executeDeposit.ts && sleep 30 && ts-node ./scripts/actions/7.createLongOrder.ts && ts-node ./scripts/actions/8.executeLongOrder.ts",
+		"fullDeployFlow": "ts-node ./scripts/actions/1.deployApp.ts && sleep 30 && ts-node ./scripts/actions/2.grantRoles.ts && sleep 30 && ts-node ./scripts/actions/3.createMarket.ts && sleep 30 && ts-node ./scripts/actions/4.setDataStore.ts && sleep 30 && ts-node ./scripts/actions/5.createDeposit.ts && sleep 120 && ts-node ./scripts/actions/6.executeDeposit.ts && sleep 30 && ts-node ./scripts/actions/7.createLongOrder.ts && sleep 30 && ts-node ./scripts/actions/8.executeLongOrder.ts",
+		"customFlow": "ts-node ./scripts/actions/5.createDeposit.ts && sleep 120 && ts-node ./scripts/actions/6.executeDeposit.ts && sleep 30 && ts-node ./scripts/actions/7.createLongOrder.ts && ts-node ./scripts/actions/8.executeLongOrder.ts"
+
+	},
+	"dependencies": {
+		"@types/node": "^20.11.16",
+		"dotenv": "^16.4.5",
+		"ethers": "5",
+		"fs": "^0.0.1-security",
+		"starknet": "^6.11.0",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.3.3"
+	}
 }

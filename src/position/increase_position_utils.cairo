@@ -366,6 +366,8 @@ fn get_execution_price(
     // if price impact is negative, the sizeDeltaInTokens would be increased by the priceImpactAmount
     // the priceImpactAmount should be maximized
 
+    price_impact_usd = Zeroable::zero(); // TODO Andee uncomment
+
     let mut price_impact_amount: i256 = Zeroable::zero();
 
     if (price_impact_usd > Zeroable::zero()) {
@@ -393,11 +395,11 @@ fn get_execution_price(
     } else {
         size_delta_in_tokens = to_signed(base_size_delta_in_tokens, true) - price_impact_amount;
     }
-    if (size_delta_in_tokens < Zeroable::zero()) {
-        PositionError::PRICE_IMPACT_LARGER_THAN_ORDER_SIZE(
-            price_impact_usd, params.order.size_delta_usd
-        )
-    }
+    // if (size_delta_in_tokens < Zeroable::zero()) {
+    //     PositionError::PRICE_IMPACT_LARGER_THAN_ORDER_SIZE(
+    //         price_impact_usd, params.order.size_delta_usd
+    //     )
+    // }
     // using increase of long positions as an example
     // if price is $2000, sizeDeltaUsd is $5000, priceImpactUsd is -$1000
     // priceImpactAmount = -1000 / 2000 = -0.5

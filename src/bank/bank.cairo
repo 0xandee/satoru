@@ -138,7 +138,7 @@ mod Bank {
             // check that receiver is not this contract
             assert(receiver != get_contract_address(), BankError::SELF_TRANSFER_NOT_SUPPORTED);
             // transfer(self.data_store.read(), token, receiver, amount); // TODO check double send
-            IERC20Dispatcher { contract_address: token }.transfer_from(sender, receiver, amount);
+            IERC20Dispatcher { contract_address: token }.transfer(receiver, amount);
         }
     }
 }
