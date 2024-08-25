@@ -1,0 +1,453 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Github Workflows Documentation - Satoru Book</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../getting-started/index.html"><strong aria-hidden="true">1.</strong> Getting Started</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../getting-started/prerequisites.html"><strong aria-hidden="true">1.1.</strong> Prerequisites</a></li><li class="chapter-item expanded "><a href="../getting-started/build.html"><strong aria-hidden="true">1.2.</strong> Build the contracts</a></li><li class="chapter-item expanded "><a href="../getting-started/test.html"><strong aria-hidden="true">1.3.</strong> Test the contracts</a></li></ol></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/index.html"><strong aria-hidden="true">2.</strong> Smart contracts architecture</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../smart-contracts-architecture/overview.html"><strong aria-hidden="true">2.1.</strong> Overview</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/adl-module.html"><strong aria-hidden="true">2.2.</strong> Adl Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/bank-module.html"><strong aria-hidden="true">2.3.</strong> Bank Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/callback-module.html"><strong aria-hidden="true">2.4.</strong> Callback Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/chain-module.html"><strong aria-hidden="true">2.5.</strong> Chain Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/config-module.html"><strong aria-hidden="true">2.6.</strong> Config Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/data-module.html"><strong aria-hidden="true">2.7.</strong> Data Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/deposit-module.html"><strong aria-hidden="true">2.8.</strong> Deposit Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/exchange-module.html"><strong aria-hidden="true">2.9.</strong> Exchange Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/feature-module.html"><strong aria-hidden="true">2.10.</strong> Feature Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/fee-module.html"><strong aria-hidden="true">2.11.</strong> Fee Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/gas-module.html"><strong aria-hidden="true">2.12.</strong> Gas Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/liquidation-module.html"><strong aria-hidden="true">2.13.</strong> Liquidation Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/market-module.html"><strong aria-hidden="true">2.14.</strong> Market Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/mock-module.html"><strong aria-hidden="true">2.15.</strong> Mock Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/nonce-module.html"><strong aria-hidden="true">2.16.</strong> Nonce Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/oracle-module.html"><strong aria-hidden="true">2.17.</strong> Oracle Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/order-module.html"><strong aria-hidden="true">2.18.</strong> Order Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/position-module.html"><strong aria-hidden="true">2.19.</strong> Position Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/price-module.html"><strong aria-hidden="true">2.20.</strong> Price Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/pricing-module.html"><strong aria-hidden="true">2.21.</strong> Pricing Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/reader-module.html"><strong aria-hidden="true">2.22.</strong> Reader Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/referral-module.html"><strong aria-hidden="true">2.23.</strong> Referral Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/role-module.html"><strong aria-hidden="true">2.24.</strong> Role Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/router-module.html"><strong aria-hidden="true">2.25.</strong> Router Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/swap-module.html"><strong aria-hidden="true">2.26.</strong> Swap Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/utils-module.html"><strong aria-hidden="true">2.27.</strong> Utils Module</a></li><li class="chapter-item expanded "><a href="../smart-contracts-architecture/withdrawal-module.html"><strong aria-hidden="true">2.28.</strong> Withdrawal Module</a></li></ol></li><li class="chapter-item expanded "><a href="../continuous-integration/index.html"><strong aria-hidden="true">3.</strong> Continuous Integration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../continuous-integration/workflows.html" class="active"><strong aria-hidden="true">3.1.</strong> Github Workflows Documentation</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Satoru Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/keep-starknet-strange/satoru/" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/keep-starknet-strange/satoru/book/src/continuous-integration/workflows.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="github-workflows-documentation"><a class="header" href="#github-workflows-documentation">Github Workflows Documentation</a></h1>
+<h2 id="satoru-book-workflow-documentation"><a class="header" href="#satoru-book-workflow-documentation">Satoru Book Workflow Documentation</a></h2>
+<h3 id="overview"><a class="header" href="#overview">Overview:</a></h3>
+<p>The "Satoru Book" GitHub Actions workflow (<code>book.yml</code>) is specifically designed for the automated build and deployment of the Satoru book's latest version.</p>
+<h3 id="workflow-details"><a class="header" href="#workflow-details">Workflow Details:</a></h3>
+<p><strong>Workflow Name:</strong> Satoru Book</p>
+<p><strong>Trigger Conditions:</strong></p>
+<ol>
+<li><strong>Push Event:</strong> Activated when changes are pushed to the <code>main</code> branch.</li>
+<li><strong>Pull Request Event:</strong> Activated for every pull request.</li>
+</ol>
+<p><strong>Jobs:</strong></p>
+<ol>
+<li><strong>Book Build &amp; Deploy Job</strong>:
+<ul>
+<li><strong>Environment:</strong> Ubuntu 20.04</li>
+<li><strong>Concurrency:</strong> Ensures that only one job runs at a time per branch or pull request, preventing potential conflicts.</li>
+<li><strong>Steps:</strong>
+<ol>
+<li><strong>Checkout Repository</strong>: Fetches the repository's content.</li>
+<li><strong>Setup mdBook</strong>: Initializes mdBook, a utility for creating online books from markdown files. It uses the latest available version.</li>
+<li><strong>Build mdBook</strong>: Constructs the online book using mdBook from the source files located in the <code>./book</code> directory.</li>
+<li><strong>Deploy</strong>: If the trigger branch is <code>main</code>, the built book is deployed to GitHub Pages using the specified token. The content to be published is sourced from the <code>./book/book</code> directory.</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-yml">name: Satoru Book
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  book:
+    runs-on: ubuntu-20.04
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup mdBook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: 'latest'
+
+      - run: mdbook build
+        working-directory: ./book
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./book/book
+</code></pre>
+<h2 id="build-workflow-documentation"><a class="header" href="#build-workflow-documentation">Build Workflow Documentation</a></h2>
+<h3 id="overview-1"><a class="header" href="#overview-1">Overview:</a></h3>
+<p>The "Build" GitHub Actions workflow (<code>build.yml</code>) is made for building Cairo files using Scarb and checking their format.</p>
+<h3 id="workflow-details-1"><a class="header" href="#workflow-details-1">Workflow Details:</a></h3>
+<p><strong>Workflow Name:</strong> Build</p>
+<p><strong>Trigger Conditions:</strong></p>
+<ol>
+<li><strong>Push Event:</strong> Activated when changes are pushed to the <code>main</code> branch.</li>
+<li><strong>Pull Request Event:</strong> Triggered for every pull request targeting the <code>main</code> branch.</li>
+</ol>
+<p><strong>Environment Variables:</strong></p>
+<ul>
+<li><strong>SCARB_VERSION:</strong> Specifies the version of Scarb to be used, currently set to <code>0.7.0</code>.</li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> Currently, we are utilizing the nightly versions of Scarb to leverage the latest features of Cairo. The installation process is slightly different than using non-nightly versions. Once Cairo and Scarb stabilize, we will migrate to stable versions and employ the <code>software-mansion/setup-scarb</code> action for easier setup.</p>
+</blockquote>
+<p><strong>Jobs:</strong></p>
+<ol>
+<li><strong>Cairo Check &amp; Build Job</strong>:
+<ul>
+<li><strong>Environment:</strong> Latest version of Ubuntu.</li>
+<li><strong>Steps:</strong>
+<ol>
+<li><strong>Checkout Repository</strong>: Fetches the repository's content.</li>
+<li><strong>Set up Scarb</strong>: Instead of using the conventional setup action, we fetch the nightly version of Scarb directly from its release page and place the binary in the required path.</li>
+<li><strong>Check Cairo Format</strong>: Ensures the Cairo files follow the expected format.</li>
+<li><strong>Build Cairo Programs</strong>: Compiles the Cairo files.</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-yml">name: Build
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+env:
+  SCARB_VERSION: 0.7.0
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: software-mansion/setup-scarb@v1
+        with:
+          scarb-version: "0.7.0"
+      - name: Check cairo format
+        run: scarb fmt --check
+      - name: Build cairo programs
+        run: scarb build
+</code></pre>
+<h2 id="security-workflow-documentation"><a class="header" href="#security-workflow-documentation">Security Workflow Documentation</a></h2>
+<h3 id="overview-2"><a class="header" href="#overview-2">Overview:</a></h3>
+<p>The "Security" GitHub Actions workflow (<code>security.yml</code>) is designed to enforce security standards and conduct safety checks on the codebase. It ensures that code modifications follow best security practices and identifies potential vulnerabilities.</p>
+<h3 id="workflow-details-2"><a class="header" href="#workflow-details-2">Workflow Details:</a></h3>
+<p><strong>Workflow Name:</strong> Security</p>
+<p><strong>Trigger Conditions:</strong></p>
+<ol>
+<li><strong>Push Event:</strong> Activated when changes are pushed to the <code>main</code> branch.</li>
+<li><strong>Pull Request Event:</strong> Triggered for every pull request targeting the <code>main</code> branch.</li>
+</ol>
+<p><strong>Jobs:</strong></p>
+<ol>
+<li><strong>Security Check Job</strong>:
+<ul>
+<li><strong>Environment:</strong> Latest version of Ubuntu.</li>
+<li><strong>Steps:</strong>
+<ol>
+<li><strong>Checkout Repository</strong>: Retrieves the repository's content.</li>
+<li><strong>Install Semgrep</strong>: Installs Semgrep, a static code analysis tool, to identify potential security issues.</li>
+<li><strong>Run Semgrep</strong>: Executes Semgrep with a custom configuration sourced from a release of <code>semgrep-cairo-rules</code>. Results are written to <code>semgrep-output.txt</code>.</li>
+<li><strong>Save Semgrep Output</strong>: Archives the Semgrep results as an artifact named <code>semgrep-cairo</code>.</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-yml">name: Security
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Semgrep
+        run: |
+          pip install semgrep
+      - name: Run Semgrep
+        run: semgrep --config https://github.com/avnu-labs/semgrep-cairo-rules/releases/download/v0.0.1/cairo-rules.yaml ./src &gt; semgrep-output.txt
+      - name: Save Semgrep Output as an Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: semgrep-cairo
+          path: semgrep-output.txt
+</code></pre>
+<h2 id="test-workflow-documentation"><a class="header" href="#test-workflow-documentation">Test Workflow Documentation</a></h2>
+<h3 id="overview-3"><a class="header" href="#overview-3">Overview:</a></h3>
+<p>The "Test" GitHub Actions workflow (<code>test.yml</code>) ensures the code's integrity by validating its functionality. It aims to detect any potential issues introduced by new code modifications, guaranteeing that they do not impact the existing codebase.</p>
+<h3 id="workflow-details-3"><a class="header" href="#workflow-details-3">Workflow Details:</a></h3>
+<p><strong>Workflow Name:</strong> Test</p>
+<p><strong>Trigger Conditions:</strong></p>
+<ol>
+<li><strong>Push Event:</strong> Activated when changes are pushed to the <code>main</code> branch.</li>
+<li><strong>Pull Request Event:</strong> Triggered for pull requests targeting the <code>main</code> branch.</li>
+</ol>
+<p><strong>Environment Variables:</strong></p>
+<ul>
+<li><strong>SCARB_VERSION:</strong> Specifies the Scarb version, currently set to <code>0.7.0</code>.</li>
+<li><strong>STARKNET_FOUNDRY_VERSION:</strong> Defines the version of Starknet Foundry, currently set to <code>0.8.3</code>.</li>
+</ul>
+<p><strong>Jobs:</strong></p>
+<ol>
+<li><strong>Test &amp; Check Job</strong>:
+<ul>
+<li><strong>Environment:</strong> Latest version of Ubuntu.</li>
+<li><strong>Steps:</strong>
+<ol>
+<li><strong>Checkout Repository</strong>: Retrieves the contents of the repository.</li>
+<li><strong>Set up Scarb</strong>: Fetches the nightly version of Scarb directly from its release page and places the binary in the required path.</li>
+<li><strong>Install Starknet Foundry</strong>: Installs the specified version of Starknet Foundry using a curl command.</li>
+<li><strong>Run Cairo Tests</strong>: Executes tests using the <code>snforge</code> command.</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-yml">name: Test
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+env:
+  SCARB_VERSION: 0.7.0
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: foundry-rs/setup-snfoundry@v1
+        with:
+          starknet-foundry-version: 0.10.1
+      - uses: software-mansion/setup-scarb@v1
+        with:
+          scarb-version: "0.7.0"
+      - name: Run cairo tests
+        run: snforge
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../continuous-integration/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../continuous-integration/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
