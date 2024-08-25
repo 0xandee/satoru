@@ -52,7 +52,7 @@ async function create_market() {
     contractAddresses.BTCUSDTMarketToken = marketTokenAddress1;
     fs.writeFileSync(contractAddressesPath, JSON.stringify(contractAddresses, null, 4), 'utf8');
 
-    console.log('Markets created ✅')
+    console.log('Markets created ✅\n')
 }
 
 create_market()

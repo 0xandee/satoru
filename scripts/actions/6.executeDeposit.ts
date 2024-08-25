@@ -71,9 +71,9 @@ async function deploy() {
         compacted_max_oracle_block_numbers: [block1, block1],
         compacted_oracle_timestamps: [current_block_data.timestamp, current_block_data.timestamp],
         compacted_decimals: [18, 18],
-        compacted_min_prices: [3060, 3060], // 500000, 10000 compacted
+        compacted_min_prices: [3060, 1], // 500000, 10000 compacted
         compacted_min_prices_indexes: [0],
-        compacted_max_prices: [3060, 3060], // 500000, 10000 compacted
+        compacted_max_prices: [3060, 1], // 500000, 10000 compacted
         compacted_max_prices_indexes: [0],
         signatures: [
             ['signatures1', 'signatures2'], ['signatures1', 'signatures2']
