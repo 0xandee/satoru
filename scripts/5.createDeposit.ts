@@ -34,7 +34,7 @@ async function create_market() {
             entrypoint: "approve",
             calldata: [
                 routerAddress,
-                uint256.bnToUint256(10000000000000000n),
+                uint256.bnToUint256(10000000000000000000n),
             ]
         },
         {
@@ -43,7 +43,7 @@ async function create_market() {
             calldata: [
                 eth,
                 depositVaultAddress,
-                uint256.bnToUint256(10000000000000000n),
+                uint256.bnToUint256(10000000000000000000n),
             ]
         },
         {
@@ -51,7 +51,7 @@ async function create_market() {
             entrypoint: "approve",
             calldata: [
                 routerAddress,
-                uint256.bnToUint256(100000000000000000000n),
+                uint256.bnToUint256(27330000000n),
             ]
         },
         {
@@ -60,7 +60,7 @@ async function create_market() {
             calldata: [
                 usdt,
                 depositVaultAddress,
-                uint256.bnToUint256(100000000000000000000n),
+                uint256.bnToUint256(27330000000n),
             ]
         },
         {
