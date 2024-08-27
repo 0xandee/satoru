@@ -2,9 +2,6 @@
 	"folders": [
 		{
 			"path": "../../.."
-		},
-		{
-			"path": "../../../../simple-nft-example/packages/starknet-devnet-rs"
 		}
 	],
 	"settings": {}
