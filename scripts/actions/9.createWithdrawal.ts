@@ -1,4 +1,4 @@
-import { Account, Contract, json, Calldata, CallData, RpcProvider, shortString, uint256, CairoCustomEnum, ec } from "starknet"
+import { Account, UINT_256_MAX, json, Calldata, CallData, RpcProvider, shortString, uint256, CairoCustomEnum, ec, cairo } from "starknet"
 import fs from 'fs'
 import dotenv from 'dotenv'
 import path from 'path';
@@ -6,13 +6,14 @@ import { tryInvoke } from "./constants/utils";
 
 const contractAddressesPath = path.join(__dirname, 'constants', 'contractAddresses.json');
 const contractAddresses = JSON.parse(fs.readFileSync(contractAddressesPath, 'utf8'));
-const ETH = contractAddresses['ETH'];
-const BTC = contractAddresses['BTC'];
-const USDT = contractAddresses['USDT'];
+const eth = contractAddresses['ETH'];
+const btc = contractAddresses['BTC'];
+const usdt = contractAddresses['USDT'];
+const zeroAddress = contractAddresses['ZeroAddress'];
 
 dotenv.config()
 
-async function create_market() {
+async function create_withdrawal() {
     // connect provider
     const providerUrl = process.env.PROVIDER_URL
     const provider = new RpcProvider({ nodeUrl: providerUrl! })
@@ -21,20 +22,20 @@ async function create_market() {
     const account0Address: string = process.env.ACCOUNT_PUBLIC as string
     const account0 = new Account(provider, account0Address!, privateKey0!)
     let MarketTokenAddress = contractAddresses['BTCUSDTMarketToken'];
-    let depositVaultAddress = contractAddresses['DepositVault'];
+    let withdrawalVaultAddress = contractAddresses['WithdrawalVault'];
     let routerAddress = contractAddresses['Router'];
     let exchangeRouterAddress = contractAddresses['ExchangeRouter'];
 
-    let eth = contractAddresses['BTC'];
-    let usdt = contractAddresses['USDT'];
+    const marketAmount =  uint256.bnToUint256(10990990n);
+    const executionFee =  uint256.bnToUint256(100n);
 
-    const depositCalls: Array<{ contractAddress: string, entrypoint: string, calldata: any[] }> = [
+    const withdrawalCaldatas: Array<{ contractAddress: string, entrypoint: string, calldata: any[] }> = [
         {
             contractAddress: eth,
             entrypoint: "approve",
             calldata: [
                 routerAddress,
-                uint256.bnToUint256(10000000000000000n),
+               executionFee,
             ]
         },
         {
@@ -42,46 +43,46 @@ async function create_market() {
             entrypoint: "send_tokens",
             calldata: [
                 eth,
-                depositVaultAddress,
-                uint256.bnToUint256(10000000000000000n),
+                withdrawalVaultAddress,
+               executionFee,
             ]
         },
         {
-            contractAddress: usdt,
+            contractAddress: MarketTokenAddress,
             entrypoint: "approve",
             calldata: [
                 routerAddress,
-                uint256.bnToUint256(100000000000000000000n),
+                marketAmount
             ]
         },
         {
             contractAddress: exchangeRouterAddress,
             entrypoint: "send_tokens",
             calldata: [
-                usdt,
-                depositVaultAddress,
-                uint256.bnToUint256(100000000000000000000n),
-            ]
+                MarketTokenAddress,
+                withdrawalVaultAddress,
+                marketAmount,
+            ],
         },
         {
             contractAddress: exchangeRouterAddress,
-            entrypoint: 'create_deposit',
+            entrypoint: 'create_withdrawal',
             calldata: CallData.compile({
+
                 receiver: account0.address,
-                callback_contract: "0x0000000000000000000000000000000000000000000000000000000000000000",
-                ui_fee_receiver: "0x0000000000000000000000000000000000000000000000000000000000000000",
+                callback_contract: zeroAddress,
+                ui_fee_receiver: zeroAddress,
                 market: MarketTokenAddress,
-                initial_long_token: eth,
-                initial_short_token: usdt,
                 long_token_swap_path: [],
                 short_token_swap_path: [],
-                min_market_tokens: uint256.bnToUint256(0),
-                execution_fee: uint256.bnToUint256(0),
+                min_long_token_amount: uint256.bnToUint256(0),
+                min_short_token_amount: uint256.bnToUint256(0),
+                execution_fee: executionFee,
                 callback_gas_limit: uint256.bnToUint256(0),
             }),
         }
     ];
-    await tryInvoke("Create Deposit", depositCalls);
+    await tryInvoke("Create Withdrawal", withdrawalCaldatas);
 }
 
-create_market()
+create_withdrawal()

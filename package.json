@@ -8,7 +8,9 @@
 		"6": "ts-node ./scripts/actions/6.executeDeposit.ts",
 		"7": "ts-node ./scripts/actions/7.createLongOrder.ts",
 		"8": "ts-node ./scripts/actions/8.executeLongOrder.ts",
-		"noDeployFlow": "ts-node ./scripts/actions/2.grantRoles.ts && sleep 30 && ts-node ./scripts/actions/3.createMarket.ts && ts-node ./scripts/actions/4.setDataStore.ts && ts-node ./scripts/actions/5.createDeposit.ts && sleep 120 && ts-node ./scripts/actions/6.executeDeposit.ts && sleep 30 && ts-node ./scripts/actions/7.createLongOrder.ts && ts-node ./scripts/actions/8.executeLongOrder.ts",
+		"9": "ts-node ./scripts/actions/9.createWithdrawal.ts",
+		"10": "ts-node ./scripts/actions/10.executeWithdrawal.ts",
+		"noDeployFlow": "ts-node ./scripts/actions/4.setDataStore.ts && ts-node ./scripts/actions/5.createDeposit.ts && sleep 120 && ts-node ./scripts/actions/6.executeDeposit.ts && sleep 30 && ts-node ./scripts/actions/7.createLongOrder.ts && ts-node ./scripts/actions/8.executeLongOrder.ts",
 		"fullDeployFlow": "ts-node ./scripts/actions/1.deployApp.ts && sleep 30 && ts-node ./scripts/actions/2.grantRoles.ts && sleep 30 && ts-node ./scripts/actions/3.createMarket.ts && sleep 30 && ts-node ./scripts/actions/4.setDataStore.ts && sleep 30 && ts-node ./scripts/actions/5.createDeposit.ts && sleep 120 && ts-node ./scripts/actions/6.executeDeposit.ts && sleep 30 && ts-node ./scripts/actions/7.createLongOrder.ts && sleep 30 && ts-node ./scripts/actions/8.executeLongOrder.ts",
 		"customFlow": "ts-node ./scripts/actions/5.createDeposit.ts && sleep 120 && ts-node ./scripts/actions/6.executeDeposit.ts && sleep 30 && ts-node ./scripts/actions/7.createLongOrder.ts && ts-node ./scripts/actions/8.executeLongOrder.ts"
 

@@ -41,7 +41,7 @@ export async function setDataStore(
 ) {
    const dataStore = await getDataStoreContract();
    const reader = await getReaderContract();
-   const market = contractAddresses['ETHUSDTMarketToken'];
+   const market = contractAddresses['BTCUSDTMarketToken'];
    const tokensInMarket = await reader.functions.get_market({
       contract_address: dataStore.address
    }, market);
