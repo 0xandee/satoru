@@ -356,7 +356,7 @@ trait IDataStore<TContractState> {
 
 
     /// Returns the number of withdrawals
-    fn get_withdrawal_count(self: @TContractState) ->u32;
+    fn get_withdrawal_count(self: @TContractState) -> u32;
 
     /// Returns the number of withdrawals made by a specific account.
     ///
