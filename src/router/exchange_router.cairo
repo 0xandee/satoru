@@ -311,8 +311,7 @@ mod ExchangeRouter {
             }
 
             self.deposit_handler.read().cancel_deposit(key);
-
-            // global_reentrancy_guard::non_reentrant_after(data_store);
+        // global_reentrancy_guard::non_reentrant_after(data_store);
         }
 
         fn create_withdrawal(ref self: ContractState, params: CreateWithdrawalParams) -> felt252 {
@@ -339,8 +338,7 @@ mod ExchangeRouter {
             }
 
             self.withdrawal_handler.read().cancel_withdrawal(key);
-
-            // global_reentrancy_guard::non_reentrant_after(data_store);
+        // global_reentrancy_guard::non_reentrant_after(data_store);
         }
 
         fn create_order(ref self: ContractState, params: CreateOrderParams) -> felt252 {
@@ -365,8 +363,7 @@ mod ExchangeRouter {
             callback_utils::set_saved_callback_contract(
                 data_store, get_caller_address(), market, callback_contract
             );
-
-            // global_reentrancy_guard::non_reentrant_after(data_store);
+        // global_reentrancy_guard::non_reentrant_after(data_store);
         }
 
         fn simulate_execute_deposit(
@@ -376,8 +373,7 @@ mod ExchangeRouter {
             // global_reentrancy_guard::non_reentrant_before(data_store);
 
             self.deposit_handler.read().simulate_execute_deposit(key, simulated_oracle_params);
-
-            // global_reentrancy_guard::non_reentrant_after(data_store);
+        // global_reentrancy_guard::non_reentrant_after(data_store);
         }
 
         fn simulate_execute_withdrawal(
@@ -390,8 +386,7 @@ mod ExchangeRouter {
                 .withdrawal_handler
                 .read()
                 .simulate_execute_withdrawal(key, simulated_oracle_params);
-
-            // global_reentrancy_guard::non_reentrant_after(data_store);
+        // global_reentrancy_guard::non_reentrant_after(data_store);
         }
 
         fn simulate_execute_order(
@@ -401,8 +396,7 @@ mod ExchangeRouter {
             // global_reentrancy_guard::non_reentrant_before(data_store);
 
             self.order_handler.read().simulate_execute_order(key, simulated_oracle_params);
-
-            // global_reentrancy_guard::non_reentrant_after(data_store);
+        // global_reentrancy_guard::non_reentrant_after(data_store);
         }
 
         // fn update_order(
@@ -414,7 +408,7 @@ mod ExchangeRouter {
         //     min_output_amout: u256
         // ) {
         //     let data_store = self.data_store.read();
-            // global_reentrancy_guard::non_reentrant_before(data_store);
+        // global_reentrancy_guard::non_reentrant_before(data_store);
 
         //     let order = data_store.get_order(key);
 
@@ -433,7 +427,7 @@ mod ExchangeRouter {
 
         // fn cancel_order(ref self: ContractState, key: felt252) {
         //     let data_store = self.data_store.read();
-            // global_reentrancy_guard::non_reentrant_before(data_store);
+        // global_reentrancy_guard::non_reentrant_before(data_store);
 
         //     let order = data_store.get_order(key);
 
@@ -597,8 +591,7 @@ mod ExchangeRouter {
             market_utils::set_ui_fee_factor(
                 data_store, self.event_emitter.read(), account, ui_fee_factor
             );
-
-            // global_reentrancy_guard::non_reentrant_after(data_store);
+        // global_reentrancy_guard::non_reentrant_after(data_store);
         }
 
         fn claim_ui_fees(
