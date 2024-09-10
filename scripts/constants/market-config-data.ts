@@ -118,7 +118,7 @@ const baseMarketConfig = {
 
 export const markets_config = {
     [contractAddresses['BTCUSDTMarketToken']]: {
-        tokens: { indexToken: "BTC", longToken: "WBTC.e", shortToken: "USDC" },
+        tokens: { indexToken: "BTC", longToken: "BTC", shortToken: "USDC" },
         virtualTokenIdForIndexToken: hashSingleString("PERP:BTC/USD"),
         virtualMarketId: hashSingleString("SPOT:BTC/USD"),
 
@@ -130,11 +130,11 @@ export const markets_config = {
         openInterestReserveFactorLongs: decimalToFloat(120, 2),
         openInterestReserveFactorShorts: decimalToFloat(120, 2),
 
-        maxLongTokenPoolAmount: expandDecimals(2_200_000, 18),
-        maxShortTokenPoolAmount: expandDecimals(110_000_000, 18),
+        maxLongTokenPoolAmount: expandDecimals(2_200_000, 8),
+        maxShortTokenPoolAmount: expandDecimals(110_000_000, 8),
 
-        maxLongTokenPoolAmountForDeposit: expandDecimals(2000, 18),
-        maxShortTokenPoolAmountForDeposit: expandDecimals(100_000_000, 18),
+        maxLongTokenPoolAmountForDeposit: expandDecimals(2000, 8),
+        maxShortTokenPoolAmountForDeposit: expandDecimals(100_000_000, 8),
 
         negativePositionImpactFactor: decimalToFloat(15, 11), // 0.05% for ~1,600,000 USD of imbalance
         positivePositionImpactFactor: decimalToFloat(9, 11), // 0.05% for ~2,700,000 USD of imbalance

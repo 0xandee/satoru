@@ -24,7 +24,7 @@ async function create_order() {
         {
             contractAddress: eth,
             entrypoint: "transfer",
-            calldata: [contractAddresses['OrderVault'] as string, uint256.bnToUint256(1000000000000000n)]
+            calldata: [contractAddresses['OrderVault'] as string, uint256.bnToUint256(400000000000000000n)]
         },
         {
             contractAddress: contractAddresses['OrderHandler'] as string,
@@ -38,10 +38,10 @@ async function create_order() {
                     market: marketTokenAddress,
                     initial_collateral_token: eth,
                     swap_path: [],
-                    size_delta_usd: uint256.bnToUint256(10000000000000000000000n),
-                    initial_collateral_delta_amount: uint256.bnToUint256(2000000000000000000n),
-                    trigger_price: uint256.bnToUint256(5000),
-                    acceptable_price: uint256.bnToUint256(5500),
+                    size_delta_usd: uint256.bnToUint256(1000n),
+                    initial_collateral_delta_amount: uint256.bnToUint256(2000n),
+                    trigger_price: uint256.bnToUint256(2733n),
+                    acceptable_price: uint256.bnToUint256(2833n),
                     execution_fee: uint256.bnToUint256(0),
                     callback_gas_limit: uint256.bnToUint256(0),
                     min_output_amount: uint256.bnToUint256(0),

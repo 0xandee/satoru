@@ -36,31 +36,31 @@ async function getDataStoreContract() {
 }
 
 /// Create a new market.
-export async function setDataStore(
-
-) {
+export async function configMarket(marketName: string) {
    const dataStore = await getDataStoreContract();
    const reader = await getReaderContract();
-   const market = contractAddresses['BTCUSDTMarketToken'];
+   const market = contractAddresses[marketName];
+
    const tokensInMarket = await reader.functions.get_market({
       contract_address: dataStore.address
    }, market);
+
    const index_token = num.toHex(tokensInMarket.index_token);
    const long_token = num.toHex(tokensInMarket.long_token);
    const short_token = num.toHex(tokensInMarket.short_token);
 
    const configData = markets_config[market];
 
-   const setDataStoreCalls: Array<{ contractAddress: string, entrypoint: string, calldata: any[] }> = [];
+   const configMarketCalls: Array<{ contractAddress: string, entrypoint: string, calldata: any[] }> = [];
 
    const virtualTokenIdForIndexTokenKey = dataStoreKeys.virtualTokenIdKey(configData.virtualTokenIdForIndexToken);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_felt252",
       calldata: [virtualTokenIdForIndexTokenKey, configData.virtualTokenIdForIndexToken]
    });
    const virtualTokenIdForMarketToken = dataStoreKeys.virtualMarketIdKey(configData.virtualTokenIdForIndexToken);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_felt252",
       calldata: [virtualTokenIdForMarketToken, configData.virtualMarketId]
@@ -68,7 +68,7 @@ export async function setDataStore(
 
    // minPositionImpactPoolAmount
    const minPositionImpactPoolAmountKey = dataStoreKeys.minPositionImpactPoolAmountKey(market);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [minPositionImpactPoolAmountKey, configData.minPositionImpactPoolAmount.toBigInt(), "0"]
@@ -86,7 +86,7 @@ export async function setDataStore(
 
    // maxLongTokenPoolAmount
    const maxLongTokenPoolAmountKey = dataStoreKeys.maxPoolAmountKey(market, long_token);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [maxLongTokenPoolAmountKey, configData.maxLongTokenPoolAmount.toBigInt(), "0"]
@@ -94,7 +94,7 @@ export async function setDataStore(
 
    // maxShortTokenPoolAmount
    const maxShortTokenPoolAmountKey = dataStoreKeys.maxPoolAmountKey(market, short_token);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [maxShortTokenPoolAmountKey, configData.maxShortTokenPoolAmount.toBigInt(), "0"]
@@ -102,14 +102,14 @@ export async function setDataStore(
 
    // maxLongTokenPoolAmountForDeposit => maxPoolAmountForDepositKey()
    const maxLongTokenPoolAmountForDepositKey = dataStoreKeys.maxPoolAmountForDepositKey(market, long_token);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [maxLongTokenPoolAmountForDepositKey, configData.maxLongTokenPoolAmountForDeposit.toBigInt(), "0"]
    });
    // maxShortTokenPoolAmountForDeposit => maxPoolAmountForDepositKey()
    const maxShortTokenPoolAmountForDepositKey = dataStoreKeys.maxPoolAmountForDepositKey(market, short_token);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [maxShortTokenPoolAmountForDepositKey, configData.maxShortTokenPoolAmountForDeposit.toBigInt(), "0"]
@@ -117,7 +117,7 @@ export async function setDataStore(
 
    // negativePositionImpactFactor
    const negativePositionImpactFactorKey = dataStoreKeys.positionImpactFactorKey(market, false);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [negativePositionImpactFactorKey, configData.negativePositionImpactFactor.toBigInt(), "0"]
@@ -125,7 +125,7 @@ export async function setDataStore(
 
    // positivePositionImpactFactor
    const positivePositionImpactFactorKey = dataStoreKeys.positionImpactFactorKey(market, false);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [positivePositionImpactFactorKey, configData.positivePositionImpactFactor.toBigInt(), "0"]
@@ -133,7 +133,7 @@ export async function setDataStore(
 
    // minCollateralFactorForOpenInterestMultiplierLong
    const minCollateralFactorForOpenInterestMultiplierLongKey = dataStoreKeys.minCollateralFactorForOpenInterest(market, true);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [minCollateralFactorForOpenInterestMultiplierLongKey, configData.minCollateralFactorForOpenInterestMultiplierLong.toBigInt(), "0"]
@@ -141,7 +141,7 @@ export async function setDataStore(
 
    // minCollateralFactorForOpenInterestMultiplierShort
    const minCollateralFactorForOpenInterestMultiplierShortKey = dataStoreKeys.minCollateralFactorForOpenInterest(market, false);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [minCollateralFactorForOpenInterestMultiplierShortKey, configData.minCollateralFactorForOpenInterestMultiplierShort.toBigInt(), "0"]
@@ -149,7 +149,7 @@ export async function setDataStore(
 
    // negativeSwapImpactFactor
    const negativeSwapImpactFactorKey = dataStoreKeys.swapImpactFactorKey(market, false);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [negativeSwapImpactFactorKey, configData.negativeSwapImpactFactor.toBigInt(), "0"]
@@ -157,7 +157,7 @@ export async function setDataStore(
 
    // positiveSwapImpactFactor
    const positiveSwapImpactFactorKey = dataStoreKeys.swapImpactFactorKey(market, true);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [positiveSwapImpactFactorKey, configData.positiveSwapImpactFactor.toBigInt(), "0"]
@@ -165,7 +165,7 @@ export async function setDataStore(
 
    // maxOpenInterestForLongs
    const maxOpenInterestForLongsKey = dataStoreKeys.maxOpenInterestKey(market, true);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [maxOpenInterestForLongsKey, configData.maxOpenInterestForLongs.toBigInt(), "0"]
@@ -173,7 +173,7 @@ export async function setDataStore(
 
    // maxOpenInterestForShorts
    const maxOpenInterestForShortsKey = dataStoreKeys.maxOpenInterestKey(market, false);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [maxOpenInterestForShortsKey, configData.maxOpenInterestForShorts.toBigInt(), "0"]
@@ -181,7 +181,7 @@ export async function setDataStore(
 
    // fundingIncreaseFactorPerSecond
    const fundingIncreaseFactorPerSecondKey = dataStoreKeys.fundingIncreaseFactorPerSecondKey(market);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [fundingIncreaseFactorPerSecondKey, configData.fundingIncreaseFactorPerSecond.toBigInt(), "0"]
@@ -189,7 +189,7 @@ export async function setDataStore(
 
    // fundingDecreaseFactorPerSecond
    const fundingDecreaseFactorPerSecondKey = dataStoreKeys.fundingDecreaseFactorPerSecondKey(market);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [fundingDecreaseFactorPerSecondKey, configData.fundingDecreaseFactorPerSecond.toBigInt(), "0"]
@@ -197,7 +197,7 @@ export async function setDataStore(
 
    // minFundingFactorPerSecond
    const minFundingFactorPerSecondKey = dataStoreKeys.minFundingFactorPerSecondKey(market);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [minFundingFactorPerSecondKey, configData.minFundingFactorPerSecond.toBigInt(), "0"]
@@ -205,7 +205,7 @@ export async function setDataStore(
 
    // maxFundingFactorPerSecond
    const maxFundingFactorPerSecondKey = dataStoreKeys.maxFundingFactorPerSecondKey(market);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [maxFundingFactorPerSecondKey, configData.maxFundingFactorPerSecond.toBigInt(), "0"]
@@ -213,7 +213,7 @@ export async function setDataStore(
 
    // thresholdForStableFunding
    const thresholdForStableFundingKey = dataStoreKeys.thresholdForStableFundingKey(market);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [thresholdForStableFundingKey, configData.thresholdForStableFunding.toBigInt(), "0"]
@@ -221,7 +221,7 @@ export async function setDataStore(
 
    // thresholdForDecreaseFunding
    const thresholdForDecreaseFundingKey = dataStoreKeys.thresholdForDecreaseFundingKey(market);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [thresholdForDecreaseFundingKey, configData.thresholdForDecreaseFunding.toBigInt(), "0"]
@@ -229,14 +229,14 @@ export async function setDataStore(
 
    // borrowingFactorForLongs
    const borrowingFactorForLongsKey = dataStoreKeys.borrowingFactorKey(market, true);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [borrowingFactorForLongsKey, configData.borrowingFactorForLongs.toBigInt(), "0"]
    });
    // borrowingFactorForShorts
    const borrowingFactorForShortsKey = dataStoreKeys.borrowingFactorKey(market, false);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [borrowingFactorForShortsKey, configData.borrowingFactorForShorts.toBigInt(), "0"]
@@ -244,14 +244,14 @@ export async function setDataStore(
 
    // borrowingExponentFactorForLongs
    const borrowingExponentFactorForLongsKey = dataStoreKeys.borrowingExponentFactorKey(market, true);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [borrowingExponentFactorForLongsKey, configData.borrowingExponentFactorForLongs.toBigInt(), "0"]
    });
    // borrowingExponentFactorForShorts
    const borrowingExponentFactorForShortsKey = dataStoreKeys.borrowingExponentFactorKey(market, false);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [borrowingExponentFactorForShortsKey, configData.borrowingExponentFactorForShorts.toBigInt(), "0"]
@@ -259,7 +259,7 @@ export async function setDataStore(
 
    // reserveFactorLongs
    const reserveFactorLongsKey = dataStoreKeys.reserveFactorKey(market, true);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [reserveFactorLongsKey, configData.reserveFactorLongs.toBigInt(), "0"]
@@ -267,7 +267,7 @@ export async function setDataStore(
 
    // reserveFactorShorts
    const reserveFactorShortsKey = dataStoreKeys.reserveFactorKey(market, false);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [reserveFactorShortsKey, configData.reserveFactorShorts.toBigInt(), "0"]
@@ -275,7 +275,7 @@ export async function setDataStore(
 
    // openInterestReserveFactorLongs
    const openInterestReserveFactorLongsKey = dataStoreKeys.openInterestReserveFactorKey(market, true);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [openInterestReserveFactorLongsKey, configData.openInterestReserveFactorLongs.toBigInt(), "0"]
@@ -283,7 +283,7 @@ export async function setDataStore(
 
    // openInterestReserveFactorShorts
    const openInterestReserveFactorShortsKey = dataStoreKeys.openInterestReserveFactorKey(market, false);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [openInterestReserveFactorShortsKey, configData.openInterestReserveFactorShorts.toBigInt(), "0"]
@@ -291,7 +291,7 @@ export async function setDataStore(
 
    // maxPnlFactorForTradersLongs
    const maxPnlFactorForTradersLongsKey = dataStoreKeys.maxPnlFactorKey(dataStoreKeys.MAX_PNL_FACTOR_FOR_TRADERS_KEY, market, true);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [maxPnlFactorForTradersLongsKey, configData.maxPnlFactorForTradersLongs.toBigInt(), "0"]
@@ -299,7 +299,7 @@ export async function setDataStore(
 
    // maxPnlFactorForTradersShorts
    const maxPnlFactorForTradersShortsKey = dataStoreKeys.maxPnlFactorKey(dataStoreKeys.MAX_PNL_FACTOR_FOR_TRADERS_KEY, market, false);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [maxPnlFactorForTradersShortsKey, configData.maxPnlFactorForTradersShorts.toBigInt(), "0"]
@@ -307,7 +307,7 @@ export async function setDataStore(
 
    // maxPnlFactorForAdlLongs
    const maxPnlFactorForAdlLongsKey = dataStoreKeys.maxPnlFactorKey(dataStoreKeys.MAX_PNL_FACTOR_FOR_ADL, market, true);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [maxPnlFactorForAdlLongsKey, configData.maxPnlFactorForAdlLongs.toBigInt(), "0"]
@@ -315,7 +315,7 @@ export async function setDataStore(
 
    // maxPnlFactorForAdlShorts
    const maxPnlFactorForAdlShortsKey = dataStoreKeys.maxPnlFactorKey(dataStoreKeys.MAX_PNL_FACTOR_FOR_ADL, market, false);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [maxPnlFactorForAdlShortsKey, configData.maxPnlFactorForAdlShorts.toBigInt(), "0"]
@@ -323,7 +323,7 @@ export async function setDataStore(
 
    // minPnlFactorAfterAdlLongs
    const minPnlFactorAfterAdlLongsKey = dataStoreKeys.minPnlFactorAfterAdl(market, true);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [minPnlFactorAfterAdlLongsKey, configData.minPnlFactorAfterAdlLongs.toBigInt(), "0"]
@@ -331,7 +331,7 @@ export async function setDataStore(
 
    // minPnlFactorAfterAdlShorts
    const minPnlFactorAfterAdlShortsKey = dataStoreKeys.minPnlFactorAfterAdl(market, false);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [minPnlFactorAfterAdlShortsKey, configData.minPnlFactorAfterAdlShorts.toBigInt(), "0"]
@@ -339,7 +339,7 @@ export async function setDataStore(
 
    // maxPnlFactorForDepositsLongs
    const maxPnlFactorForDepositsLongsKey = dataStoreKeys.maxPnlFactorKey(dataStoreKeys.MAX_PNL_FACTOR_FOR_DEPOSITS_KEY, market, true);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [maxPnlFactorForDepositsLongsKey, configData.maxPnlFactorForDepositsLongs.toBigInt(), "0"]
@@ -347,7 +347,7 @@ export async function setDataStore(
 
    // maxPnlFactorForDepositsShorts
    const maxPnlFactorForDepositsShortsKey = dataStoreKeys.maxPnlFactorKey(dataStoreKeys.MAX_PNL_FACTOR_FOR_DEPOSITS_KEY, market, false);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [maxPnlFactorForDepositsShortsKey, configData.maxPnlFactorForDepositsShorts.toBigInt(), "0"]
@@ -355,7 +355,7 @@ export async function setDataStore(
 
    // maxPnlFactorForWithdrawalsLongs
    const maxPnlFactorForWithdrawalsLongsKey = dataStoreKeys.maxPnlFactorKey(dataStoreKeys.MAX_PNL_FACTOR_FOR_WITHDRAWALS_KEY, market, true);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [maxPnlFactorForWithdrawalsLongsKey, configData.maxPnlFactorForWithdrawalsLongs.toBigInt(), "0"]
@@ -363,7 +363,7 @@ export async function setDataStore(
 
    // maxPnlFactorForWithdrawalsShorts
    const maxPnlFactorForWithdrawalsShortsKey = dataStoreKeys.maxPnlFactorKey(dataStoreKeys.MAX_PNL_FACTOR_FOR_WITHDRAWALS_KEY, market, false);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [maxPnlFactorForWithdrawalsShortsKey, configData.maxPnlFactorForWithdrawalsShorts.toBigInt(), "0"]
@@ -371,7 +371,7 @@ export async function setDataStore(
 
    // positiveMaxPositionImpactFactor
    const positiveMaxPositionImpactFactorKey = dataStoreKeys.maxPositionImpactFactorKey(market, true);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [positiveMaxPositionImpactFactorKey, configData.positiveMaxPositionImpactFactor.toBigInt(), "0"]
@@ -379,7 +379,7 @@ export async function setDataStore(
 
    // negativeMaxPositionImpactFactor
    const negativeMaxPositionImpactFactorKey = dataStoreKeys.maxPositionImpactFactorKey(market, false);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [negativeMaxPositionImpactFactorKey, configData.negativeMaxPositionImpactFactor.toBigInt(), "0"]
@@ -387,16 +387,16 @@ export async function setDataStore(
 
    // maxPositionImpactFactorForLiquidations
    const maxPositionImpactFactorForLiquidationsKey = dataStoreKeys.maxPositionImpactFactorForLiquidationsKey(market);
-   setDataStoreCalls.push({
+   configMarketCalls.push({
       contractAddress: dataStore.address,
       entrypoint: "set_u256",
       calldata: [maxPositionImpactFactorForLiquidationsKey, configData.maxPositionImpactFactorForLiquidations.toBigInt(), "0"]
    });
 
-   await tryInvoke("setDataStoreCalls", setDataStoreCalls);
+   await tryInvoke(`config ${marketName}`, configMarketCalls);
 }
 
-
 (async () => {
-   setDataStore();
+   await configMarket('ETHUSDTMarketToken');
+   await configMarket('BTCUSDTMarketToken');
 })()

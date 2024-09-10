@@ -52,7 +52,7 @@ export async function getAccountLatestDepositKeys(accountAddress: string) {
     return accountDepositKeys[accountDepositKeys.length - 1];
 }
 
-async function deploy() {
+async function execute_deposit() {
     const key = await getAccountLatestDepositKeys(account0Address);
 
     const depositHandlerAddress = contractAddresses['DepositHandler'];
@@ -64,16 +64,16 @@ async function deploy() {
     const block0 = 0;
     const block1 = current_block - 1;
 
-    const setPricesParams = {
-        signer_info: 0,
-        tokens: [contractAddresses['BTC'], contractAddresses['USDT']],
+    const oracleParams = {
+        signer_info: 1,
+        tokens: [contractAddresses['ETH'], contractAddresses['USDT']],
         compacted_min_oracle_block_numbers: [block0, block0],
         compacted_max_oracle_block_numbers: [block1, block1],
         compacted_oracle_timestamps: [current_block_data.timestamp, current_block_data.timestamp],
-        compacted_decimals: [18, 18],
-        compacted_min_prices: [6000, 1], // 500000, 10000 compacted
+        compacted_decimals: [18, 6],
+        compacted_min_prices: [2733000000000000000000, 1000000], // 500000, 10000 compacted
         compacted_min_prices_indexes: [0],
-        compacted_max_prices: [6000, 1], // 500000, 10000 compacted
+        compacted_max_prices: [2733000000000000000000, 1000000], // 500000, 10000 compacted
         compacted_max_prices_indexes: [0],
         signatures: [
             ['signatures1', 'signatures2'], ['signatures1', 'signatures2']
@@ -85,11 +85,11 @@ async function deploy() {
 
     const executeOrderCall = depositHandlerContract.populate("execute_deposit", [
         key,
-        setPricesParams
+        oracleParams
     ])
     console.log("🚀 ~ deploy ~ executeOrderCall:", executeOrderCall)
     let tx = await depositHandlerContract.execute_deposit(executeOrderCall.calldata)
-    console.log("Deposit executed: https://sepolia.starkscan.co/tx/" + tx.transaction_hash);
+    console.log("Deposit executed: https://sepolia.starkscan.co/tx/" + tx.transaction_hash + "\n");
 }
 
-deploy()
+execute_deposit()

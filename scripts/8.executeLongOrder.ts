@@ -51,7 +51,7 @@ export async function getAccountLatestOrderKeys(accountAddress: string) {
 }
 
 
-async function create_market() {
+async function execute_ordeer() {
     const key = await getAccountLatestOrderKeys(account0Address);
 
     const compiledOrderHandlerSierra = json.parse(fs.readFileSync("./target/dev/satoru_OrderHandler.contract_class.json").toString("ascii"))
@@ -86,7 +86,7 @@ async function create_market() {
         compacted_min_oracle_block_numbers: [block0, block0],
         compacted_max_oracle_block_numbers: [block1, block1],
         compacted_oracle_timestamps: [current_block_data.timestamp, current_block_data.timestamp],
-        compacted_decimals: [18, 18],
+        compacted_decimals: [18, 6],
         compacted_min_prices: [2700, 1], // 500000, 10000 compacted
         compacted_min_prices_indexes: [0],
         compacted_max_prices: [2700, 1], // 500000, 10000 compacted
@@ -107,4 +107,4 @@ async function create_market() {
     console.log("Order executed: https://sepolia.starkscan.co/tx/" + tx.transaction_hash);
 }
 
-create_market()
+execute_ordeer()

@@ -354,6 +354,10 @@ trait IDataStore<TContractState> {
     /// * `end` - The ending index of the withdrawal keys to retrieve.
     fn get_withdrawal_keys(self: @TContractState, start: usize, end: usize) -> Array<felt252>;
 
+
+    /// Returns the number of withdrawals
+    fn get_withdrawal_count(self: @TContractState) -> u32;
+
     /// Returns the number of withdrawals made by a specific account.
     ///
     /// # Arguments
@@ -1316,8 +1320,13 @@ mod DataStore {
                 }
                 let withdrawal: Withdrawal = withdrawals[i];
                 keys.append(withdrawal.key);
+                i = i + 1;
             };
             keys
+        }
+
+        fn get_withdrawal_count(self: @ContractState) -> u32 {
+            self.withdrawals.read().len()
         }
 
         fn get_account_withdrawal_count(self: @ContractState, account: ContractAddress) -> u32 {
