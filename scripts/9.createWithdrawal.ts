@@ -21,32 +21,16 @@ async function create_withdrawal() {
     const privateKey0: string = process.env.ACCOUNT_PRIVATE as string
     const account0Address: string = process.env.ACCOUNT_PUBLIC as string
     const account0 = new Account(provider, account0Address!, privateKey0!)
-    let MarketTokenAddress = contractAddresses['BTCUSDTMarketToken'];
+    let MarketTokenAddress = contractAddresses['ETHUSDTMarketToken'];
     let withdrawalVaultAddress = contractAddresses['WithdrawalVault'];
     let routerAddress = contractAddresses['Router'];
     let exchangeRouterAddress = contractAddresses['ExchangeRouter'];
 
-    const marketAmount =  uint256.bnToUint256(10990990n);
-    const executionFee =  uint256.bnToUint256(100n);
+    const marketAmount =  uint256.bnToUint256(10.55 * 1e18);
+    const executionFee =  uint256.bnToUint256(0n);
 
     const withdrawalCaldatas: Array<{ contractAddress: string, entrypoint: string, calldata: any[] }> = [
-        {
-            contractAddress: eth,
-            entrypoint: "approve",
-            calldata: [
-                routerAddress,
-               executionFee,
-            ]
-        },
-        {
-            contractAddress: exchangeRouterAddress,
-            entrypoint: "send_tokens",
-            calldata: [
-                eth,
-                withdrawalVaultAddress,
-               executionFee,
-            ]
-        },
+       
         {
             contractAddress: MarketTokenAddress,
             entrypoint: "approve",

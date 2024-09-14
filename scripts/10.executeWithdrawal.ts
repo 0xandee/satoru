@@ -41,7 +41,6 @@ export async function getAccountWithdrawalCount(accountAddress: string) {
 export async function getAccountWithdrawalKeys(accountAddress: string) {
     const dataStoreContract = await getDataStoreContract();
     const accountDepositCount = await getAccountWithdrawalCount(accountAddress);
-    console.log("Account Withdrawal Count:", accountDepositCount)
     const accountWithdrawalKeys = await dataStoreContract.get_account_withdrawal_keys(accountAddress, 0, Number(accountDepositCount));
     return accountWithdrawalKeys;
 }
@@ -55,7 +54,6 @@ export async function getAccountLatestWithdrawalKeys(accountAddress: string) {
 async function deploy() {
     let key = await getAccountLatestWithdrawalKeys(account0Address);
     const accountWithdrawalKeys = await getAccountWithdrawalKeys(account0Address);
-    // key = accountWithdrawalKeys[1]
     console.log("🚀 ~ deploy ~ accountWithdrawalKeys:", accountWithdrawalKeys)
 
 
@@ -70,14 +68,14 @@ async function deploy() {
 
     const setPricesParams = {
         signer_info: 0,
-        tokens: [contractAddresses['BTC'], contractAddresses['USDT']],
+        tokens: [contractAddresses['ETH'], contractAddresses['USDT']],
         compacted_min_oracle_block_numbers: [block0, block0],
         compacted_max_oracle_block_numbers: [block1, block1],
         compacted_oracle_timestamps: [current_block_data.timestamp, current_block_data.timestamp],
         compacted_decimals: [18, 18],
-        compacted_min_prices: [6000, 1], // 500000, 10000 compacted
+        compacted_min_prices: [2733000000000000000000, 1000000], // 500000, 10000 compacted
         compacted_min_prices_indexes: [0],
-        compacted_max_prices: [6000, 1], // 500000, 10000 compacted
+        compacted_max_prices: [2733000000000000000000, 1000000], // 500000, 10000 compacted
         compacted_max_prices_indexes: [0],
         signatures: [
             ['signatures1', 'signatures2'], ['signatures1', 'signatures2']

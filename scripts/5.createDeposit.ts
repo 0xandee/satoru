@@ -20,12 +20,12 @@ async function create_market() {
     const privateKey0: string = process.env.ACCOUNT_PRIVATE as string
     const account0Address: string = process.env.ACCOUNT_PUBLIC as string
     const account0 = new Account(provider, account0Address!, privateKey0!)
-    let MarketTokenAddress = contractAddresses['BTCUSDTMarketToken'];
+    let MarketTokenAddress = contractAddresses['ETHUSDTMarketToken'];
     let depositVaultAddress = contractAddresses['DepositVault'];
     let routerAddress = contractAddresses['Router'];
     let exchangeRouterAddress = contractAddresses['ExchangeRouter'];
 
-    let eth = contractAddresses['BTC'];
+    let eth = contractAddresses['ETH'];
     let usdt = contractAddresses['USDT'];
 
     const depositCalls: Array<{ contractAddress: string, entrypoint: string, calldata: any[] }> = [
