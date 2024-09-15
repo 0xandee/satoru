@@ -137,7 +137,10 @@ mod OrderHandler {
     use satoru::feature::feature_utils::{validate_feature};
     use satoru::data::data_store::{IDataStoreDispatcher, IDataStoreDispatcherTrait};
     use satoru::event::event_emitter::{IEventEmitterDispatcher, IEventEmitterDispatcherTrait};
-    use satoru::data::keys::{create_order_feature_disabled_key, execute_order_feature_disabled_key, cancel_order_feature_disabled_key, user_initiated_cancel, update_order_feature_disabled_key};
+    use satoru::data::keys::{
+        create_order_feature_disabled_key, execute_order_feature_disabled_key,
+        cancel_order_feature_disabled_key, user_initiated_cancel, update_order_feature_disabled_key
+    };
     use satoru::role::role::FROZEN_ORDER_KEEPER;
     use satoru::role::role_module::{RoleModule, IRoleModule};
     use satoru::role::role_store::{IRoleStoreDispatcher, IRoleStoreDispatcherTrait};
@@ -267,7 +270,7 @@ mod OrderHandler {
                 data_store,
                 update_order_feature_disabled_key(get_contract_address(), order.order_type)
             );
-            
+
             // NOTE: TED Only Limit orders can be updated.
             assert(!base_order_utils::is_market_order(order.order_type), 'OrderNotUpdatable');
 
@@ -333,23 +336,21 @@ mod OrderHandler {
                 )
             }
 
-            base_order_handler_state.
-            order_utils_lib
+            base_order_handler_state
+                .order_utils_lib
                 .read()
                 .cancel_order(
-                data_store,
-                base_order_handler_state.event_emitter.read(),
-                base_order_handler_state.order_vault.read(),
-                key,
-                order.account,
-                starting_gas,
-                user_initiated_cancel(),
-                ArrayTrait::<felt252>::new(),
-            );
-
-            // global_reentrancy_guard::non_reentrant_after(data_store);
+                    data_store,
+                    base_order_handler_state.event_emitter.read(),
+                    base_order_handler_state.order_vault.read(),
+                    key,
+                    order.account,
+                    starting_gas,
+                    user_initiated_cancel(),
+                    ArrayTrait::<felt252>::new(),
+                );
+        // global_reentrancy_guard::non_reentrant_after(data_store);
         }
-
 
 
         fn execute_order(ref self: ContractState, key: felt252, oracle_params: SetPricesParams) {

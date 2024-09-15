@@ -408,7 +408,7 @@ mod ExchangeRouter {
             min_output_amout: u256
         ) {
             let data_store = self.data_store.read();
-        global_reentrancy_guard::non_reentrant_before(data_store);
+            global_reentrancy_guard::non_reentrant_before(data_store);
 
             let order = data_store.get_order(key);
 
@@ -427,7 +427,7 @@ mod ExchangeRouter {
 
         fn cancel_order(ref self: ContractState, key: felt252) {
             let data_store = self.data_store.read();
-        global_reentrancy_guard::non_reentrant_before(data_store);
+            global_reentrancy_guard::non_reentrant_before(data_store);
 
             let order = data_store.get_order(key);
 
