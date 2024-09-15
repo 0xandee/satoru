@@ -414,15 +414,15 @@ mod OrderUtils {
             // let mut event_data: LogData = Default::default();
             // callback_utils::after_order_cancellation(key, order, event_data);
 
-            gas_utils::pay_execution_fee_order(
-                data_store,
-                event_emitter,
-                order_vault,
-                order.execution_fee,
-                starting_gas,
-                keeper,
-                order.account
-            );
+            // gas_utils::pay_execution_fee_order(
+            //     data_store,
+            //     event_emitter,
+            //     order_vault,
+            //     order.execution_fee,
+            //     starting_gas,
+            //     keeper,
+            //     order.account
+            // );
         }
         
 

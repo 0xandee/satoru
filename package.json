@@ -10,8 +10,8 @@
 		"8": "ts-node ./scripts/8.executeLongOrder.ts",
 		"9": "ts-node ./scripts/9.createWithdrawal.ts",
 		"10": "ts-node ./scripts/10.executeWithdrawal.ts",
-		"noDeployFlow": "ts-node ./scripts/2.grantRoles.ts && sleep 30 && ts-node ./scripts/3.createMarket.ts && ts-node ./scripts/4.configMarket.ts && ts-node ./scripts/5.createDeposit.ts && sleep 120 && ts-node ./scripts/6.executeDeposit.ts && sleep 30 && ts-node ./scripts/7.createLongOrder.ts && ts-node ./scripts/8.executeLongOrder.ts",
-		"fullDeployFlow": "ts-node ./scripts/1.deployApp.ts && sleep 30 && ts-node ./scripts/2.grantRoles.ts && sleep 30 && ts-node ./scripts/3.createMarket.ts && sleep 30 && ts-node ./scripts/4.configMarket.ts && sleep 30 && ts-node ./scripts/5.createDeposit.ts && sleep 120 && ts-node ./scripts/6.executeDeposit.ts && sleep 30 && ts-node ./scripts/7.createLongOrder.ts && sleep 30 && ts-node ./scripts/8.executeLongOrder.ts",
+		"11": "ts-node ./scripts/11.cancelOrder.ts",
+		"noDeployFlow": "ts-node ./scripts/2.grantRoles.ts ",
 		"customFlow": "ts-node ./scripts/1.deployApp.ts && sleep 30 && ts-node ./scripts/2.grantRoles.ts && sleep 30 && ts-node ./scripts/3.createMarket.ts && sleep 30 && ts-node ./scripts/4.configMarket.ts && sleep 30 && ts-node ./scripts/5.createDeposit.ts && sleep 120 && ts-node ./scripts/6.executeDeposit.ts"
 
 	},

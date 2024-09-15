@@ -7,6 +7,9 @@ import { sleep, tryInvoke } from "./constants/utils"
 const contractAddressesPath = path.join(__dirname, 'constants', 'contractAddresses.json');
 const contractAddresses = JSON.parse(fs.readFileSync(contractAddressesPath, 'utf8'));
 
+const classHashesPath = path.join(__dirname, 'constants', 'classHashes.json');
+const classHashes = JSON.parse(fs.readFileSync(classHashesPath, 'utf8'));
+
 dotenv.config()
 
 async function deploy() {
@@ -166,6 +169,8 @@ async function deploy() {
 
         contractAddresses.IncreaseOrderUtils = deployIncreaseOrderUtilsResponse.deploy.contract_address;
         fs.writeFileSync(contractAddressesPath, JSON.stringify(contractAddresses, null, 4), 'utf8');
+        classHashes.IncreaseOrderUtils = deployIncreaseOrderUtilsResponse.deploy.classHash;
+        fs.writeFileSync(classHashesPath, JSON.stringify(classHashes, null, 4), 'utf8');
     }
 
     if (!contractAddresses.DecreaseOrderUtils) {
@@ -180,6 +185,8 @@ async function deploy() {
 
         contractAddresses.DecreaseOrderUtils = deployDecreaseOrderUtilsResponse.deploy.contract_address;
         fs.writeFileSync(contractAddressesPath, JSON.stringify(contractAddresses, null, 4), 'utf8');
+        classHashes.DecreaseOrderUtils = deployDecreaseOrderUtilsResponse.deploy.classHash;
+        fs.writeFileSync(classHashesPath, JSON.stringify(classHashes, null, 4), 'utf8');
     }
 
     if (!contractAddresses.SwapOrderUtils) {
@@ -194,6 +201,8 @@ async function deploy() {
 
         contractAddresses.SwapOrderUtils = deploySwapOrderUtilsResponse.deploy.contract_address;
         fs.writeFileSync(contractAddressesPath, JSON.stringify(contractAddresses, null, 4), 'utf8');
+        classHashes.SwapOrderUtils = deploySwapOrderUtilsResponse.deploy.classHash;
+        fs.writeFileSync(classHashesPath, JSON.stringify(classHashes, null, 4), 'utf8');
     }
 
     if (!contractAddresses.OrderUtils) {
@@ -213,6 +222,9 @@ async function deploy() {
 
         contractAddresses.OrderUtils = deployOrderUtilsResponse.deploy.contract_address;
         fs.writeFileSync(contractAddressesPath, JSON.stringify(contractAddresses, null, 4), 'utf8');
+        classHashes.OrderUtils = deployOrderUtilsResponse.deploy.classHash;
+        fs.writeFileSync(classHashesPath, JSON.stringify(classHashes, null, 4), 'utf8');
+
     }
 
     if (!contractAddresses.OrderHandler) {
@@ -227,10 +239,10 @@ async function deploy() {
             oracle_address: contractAddresses.Oracle,
             swap_handler_address: contractAddresses.SwapHandler,
             referral_storage_address: contractAddresses.ReferralStorage,
-            order_utils_class_hash: contractAddresses.OrderUtils,
-            increase_order_utils_class_hash: contractAddresses.IncreaseOrderUtils,
-            decrease_order_utils_class_hash: contractAddresses.DecreaseOrderUtils,
-            swap_order_utils_class_hash: contractAddresses.SwapOrderUtils,
+            order_utils_class_hash: classHashes.OrderUtils,
+            increase_order_utils_class_hash: classHashes.IncreaseOrderUtils,
+            decrease_order_utils_class_hash: classHashes.DecreaseOrderUtils,
+            swap_order_utils_class_hash: classHashes.SwapOrderUtils,
         })
         const deployOrderHandlerResponse = await account0.declareAndDeploy({
             contract: compiledOrderHandlerSierra,
@@ -320,7 +332,7 @@ async function deploy() {
     }
 
     if (!contractAddresses.MarketFactory) {
-        const marketTokenClassHash = contractAddresses.MarketTokenClassHash;
+        const marketTokenClassHash = classHashes.MarketToken;
         if(!marketTokenClassHash) { 
             try {
                 const compiledMarketTokenCasm = json.parse(fs.readFileSync("./target/dev/satoru_MarketToken.compiled_contract_class.json").toString("ascii"))
@@ -329,7 +341,8 @@ async function deploy() {
                     contract: compiledMarketTokenSierra,
                     casm: compiledMarketTokenCasm
                 })
-                contractAddresses.MarketTokenClassHash = declare.class_hash;
+                classHashes.MarketToken = declare.class_hash;
+                fs.writeFileSync(classHashesPath, JSON.stringify(classHashes, null, 4), 'utf8');
             } catch (error) {
             console.log("🚀 ~ deploy ~ error:", error)
 

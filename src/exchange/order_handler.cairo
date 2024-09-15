@@ -267,8 +267,9 @@ mod OrderHandler {
                 data_store,
                 update_order_feature_disabled_key(get_contract_address(), order.order_type)
             );
-
-            assert(base_order_utils::is_market_order(order.order_type), 'OrderNotUpdatable');
+            
+            // NOTE: TED Only Limit orders can be updated.
+            assert(!base_order_utils::is_market_order(order.order_type), 'OrderNotUpdatable');
 
             let mut updated_order = order.clone();
             updated_order.size_delta_usd = size_delta_usd;
