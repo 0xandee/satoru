@@ -115,6 +115,7 @@ fn swap(params: @SwapParams) -> (ContractAddress, u256) {
         if (*params.amount_in < *params.min_output_amount) {
             SwapError::INSUFFICIENT_OUTPUT_AMOUNT(*params.amount_in, *params.min_output_amount);
         }
+        // NOTE:sub overflow here
         if (params.bank.contract_address != params.receiver) {
             (*params.bank)
                 .transfer_out(

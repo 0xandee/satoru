@@ -31,46 +31,48 @@ async function getDataStoreContract() {
 }
 
 // Read account deposit keys count
-export async function getAccountDepositCount(accountAddress: string) {
+export async function getAccountWithdrawalCount(accountAddress: string) {
     const dataStoreContract = await getDataStoreContract();
-    const accountDepositCount = await dataStoreContract.get_account_deposit_count(accountAddress);
+    const accountDepositCount = await dataStoreContract.get_account_withdrawal_count(accountAddress);
     return Number(accountDepositCount);
 }
 
 // Get all account deposit keys
-export async function getAccountDepositKeys(accountAddress: string) {
+export async function getAccountWithdrawalKeys(accountAddress: string) {
     const dataStoreContract = await getDataStoreContract();
-    const accountDepositCount = await getAccountDepositCount(accountAddress);
-    console.log("Account Deposit Count:", accountDepositCount)
-    const accountDepositKeys = await dataStoreContract.get_account_deposit_keys(accountAddress, 0, Number(accountDepositCount));
-    return accountDepositKeys;
+    const accountDepositCount = await getAccountWithdrawalCount(accountAddress);
+    const accountWithdrawalKeys = await dataStoreContract.get_account_withdrawal_keys(accountAddress, 0, Number(accountDepositCount));
+    return accountWithdrawalKeys;
 }
 
 // Get latest account deposit key
-export async function getAccountLatestDepositKeys(accountAddress: string) {
-    const accountDepositKeys = await getAccountDepositKeys(accountAddress);
-    return accountDepositKeys[accountDepositKeys.length - 1];
+export async function getAccountLatestWithdrawalKeys(accountAddress: string) {
+    const accountWithdrawalKeys = await getAccountWithdrawalKeys(accountAddress);
+    return accountWithdrawalKeys[accountWithdrawalKeys.length - 1];
 }
 
-async function execute_deposit() {
-    const key = await getAccountLatestDepositKeys(account0Address);
+async function deploy() {
+    let key = await getAccountLatestWithdrawalKeys(account0Address);
+    const accountWithdrawalKeys = await getAccountWithdrawalKeys(account0Address);
+    console.log("🚀 ~ deploy ~ accountWithdrawalKeys:", accountWithdrawalKeys)
 
-    const depositHandlerAddress = contractAddresses['DepositHandler'];
-    const compiledDepositHandlerSierra = json.parse(fs.readFileSync("./target/dev/satoru_DepositHandler.contract_class.json").toString("ascii"))
 
-    const depositHandlerContract = new Contract(compiledDepositHandlerSierra.abi, depositHandlerAddress, provider);
+    const withdrawalHandlerAddress = contractAddresses['WithdrawalHandler'];
+    const compiledWithdrawalHandlerSierra = json.parse(fs.readFileSync("./target/dev/satoru_WithdrawalHandler.contract_class.json").toString("ascii"))
+
+    const withdrawalHandlerContract = new Contract(compiledWithdrawalHandlerSierra.abi, withdrawalHandlerAddress, provider);
     const current_block = await provider.getBlockNumber();
     const current_block_data = await provider.getBlock(current_block);
     const block0 = 0;
     const block1 = current_block - 1;
 
-    const oracleParams = {
-        signer_info: 1,
+    const setPricesParams = {
+        signer_info: 0,
         tokens: [contractAddresses['ETH'], contractAddresses['USDT']],
         compacted_min_oracle_block_numbers: [block0, block0],
         compacted_max_oracle_block_numbers: [block1, block1],
         compacted_oracle_timestamps: [current_block_data.timestamp, current_block_data.timestamp],
-        compacted_decimals: [18, 6],
+        compacted_decimals: [18, 18],
         compacted_min_prices: [2733000000000000000000, 1000000], // 500000, 10000 compacted
         compacted_min_prices_indexes: [0],
         compacted_max_prices: [2733000000000000000000, 1000000], // 500000, 10000 compacted
@@ -81,15 +83,14 @@ async function execute_deposit() {
         price_feed_tokens: []
     };
 
-    depositHandlerContract.connect(account0)
+    withdrawalHandlerContract.connect(account0)
 
-    const executeOrderCall = depositHandlerContract.populate("execute_deposit", [
+    const executeOrderCall = withdrawalHandlerContract.populate("execute_withdrawal", [
         key,
-        oracleParams
+        setPricesParams
     ])
-    console.log("🚀 ~ deploy ~ executeOrderCall:", executeOrderCall)
-    let tx = await depositHandlerContract.execute_deposit(executeOrderCall.calldata)
-    console.log("Deposit executed: https://sepolia.starkscan.co/tx/" + tx.transaction_hash + "\n");
+    let tx = await withdrawalHandlerContract.execute_withdrawal(executeOrderCall.calldata)
+    console.log("Withdrawal executed: https://sepolia.starkscan.co/tx/" + tx.transaction_hash);
 }
 
-execute_deposit()
+deploy()
